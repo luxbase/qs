@@ -1,7 +1,18 @@
 <div class="modal" id="tallyModal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-content">
-        <button class="modal-close" id="closeTally" type="button" aria-label="Cerrar">&times;</button>
-        <iframe src="https://tally.so/r/xX6NNk" width="100%" height="100%" frameborder="0" style="border: 0; min-height: 520px;" allow="camera; microphone; autoplay"></iframe>
+        <div class="modal-header">
+            <span class="modal-title">Solicitud de Staging Digital</span>
+            <button class="modal-close" id="closeTally" type="button" aria-label="Cerrar">&times;</button>
+        </div>
+        <div id="formContainer">
+            <iframe src="https://tally.so/r/xX6NNk" width="100%" height="100%" frameborder="0" allow="camera; microphone; autoplay"></iframe>
+        </div>
+        <div id="successContainer" style="display:none">
+            <div class="success-icon">&#10003;</div>
+            <h2>¡Solicitud enviada!</h2>
+            <p>Recibimos tu información. Te contactaremos pronto.</p>
+            <button class="btn-new" id="newSubmission" type="button">Nueva solicitud</button>
+        </div>
     </div>
 </div>
 
@@ -26,47 +37,128 @@
     }
 
     .modal-content {
-        background: transparent;
+        background: #1a1a1a;
         padding: 0;
         border-radius: 20px;
-        max-width: 720px;
+        max-width: 760px;
         width: 100%;
-        height: 80svh;
-        max-height: 700px;
+        height: 92svh;
+        max-height: 920px;
         overflow: hidden;
         position: relative;
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.08);
         box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px 14px 24px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        flex-shrink: 0;
+    }
+
+    .modal-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #e8c27a;
+        letter-spacing: 0.02em;
+    }
+
+    #formContainer {
+        width: 100%;
+        flex: 1;
+        min-height: 0;
+    }
+
+    #formContainer iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
     }
 
     .modal-close {
-        position: absolute;
-        top: 12px;
-        right: 16px;
-        background: rgba(0,0,0,0.6);
+        background: rgba(255,255,255,0.06);
         border: none;
-        color: white;
-        font-size: 1.8rem;
+        color: #a0a0a0;
+        font-size: 1.3rem;
         cursor: pointer;
-        z-index: 10;
         line-height: 1;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all 0.2s;
     }
 
     .modal-close:hover {
-        background: rgba(0,0,0,0.9);
+        background: rgba(255,255,255,0.12);
+        color: white;
     }
 
     @media (max-width: 560px) {
         .modal-content {
-            height: 90svh;
+            height: 96svh;
+            max-height: none;
             border-radius: 12px;
+            margin: 0;
         }
+    }
+
+    #successContainer {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        text-align: center;
+        padding: 40px;
+    }
+
+    .success-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #e8c27a;
+        color: #0f0f0f;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    #successContainer h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    #successContainer p {
+        color: #a0a0a0;
+        margin-bottom: 28px;
+    }
+
+    .btn-new {
+        background: #e8c27a;
+        color: #0f0f0f;
+        border: none;
+        padding: 14px 36px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .btn-new:hover {
+        background: #d4ae65;
     }
 </style>
 
@@ -78,8 +170,27 @@
 
 <script>
     const modal = document.getElementById('tallyModal');
+    const formContainer = document.getElementById('formContainer');
+    const successContainer = document.getElementById('successContainer');
+    const iframe = document.querySelector('#tallyModal iframe');
+
+    const resetForm = () => {
+        formContainer.style.display = '';
+        successContainer.style.display = 'none';
+        if (iframe) {
+            const src = iframe.src;
+            iframe.src = '';
+            iframe.src = src;
+        }
+    };
+
+    const showSuccess = () => {
+        formContainer.style.display = 'none';
+        successContainer.style.display = 'flex';
+    };
 
     const openModal = () => {
+        resetForm();
         modal?.classList.add('active');
         modal?.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open-tally');
@@ -100,6 +211,7 @@
     });
 
     document.getElementById('closeTally')?.addEventListener('click', closeModal);
+    document.getElementById('newSubmission')?.addEventListener('click', resetForm);
 
     modal?.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
@@ -107,5 +219,11 @@
 
     modal?.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeModal();
+    });
+
+    window.addEventListener('message', (e) => {
+        if (e.origin === 'https://tally.so' && typeof e.data === 'string' && e.data.includes('Tally.FormSubmitted')) {
+            showSuccess();
+        }
     });
 </script>
