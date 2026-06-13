@@ -10,6 +10,12 @@
             </svg>
             <span class="logo-text">Zynera</span>
         </a>
+        <div class="nav-links">
+            <a href="#servicios">Servicios</a>
+            <a href="#proceso">Proceso</a>
+            <a href="#resultados">Resultados</a>
+            <a href="#faq">FAQ</a>
+        </div>
         <div class="header-actions">
             <button class="btn-contact" id="openContact">Probar sistema →</button>
             <a href="https://wa.me/595981123456?text=Hola%20Zynera!%20Quisiera%20recibir%20informaci%C3%B3n%20sobre%20sus%20servicios%20de%20staging%20digital." class="btn-whatsapp">WhatsApp</a>
@@ -35,12 +41,36 @@
         align-items: center;
     }
 
+    .nav-links {
+        display: none;
+        gap: 24px;
+    }
+
+    @media (min-width: 900px) {
+        .nav-links {
+            display: flex;
+        }
+    }
+
+    .nav-links a {
+        color: var(--text-dim);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: var(--transition-smooth);
+    }
+
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
+
     .logo {
         display: flex;
         align-items: center;
         gap: 12px;
         text-decoration: none;
     }
+...
+
 
     .logo-mark {
         width: 32px;
