@@ -2,61 +2,69 @@
 
 > Transformamos espacios vacíos en hogares que venden.
 
-**Zynera** es una plataforma premium de marketing visual inmobiliario, diseñada para acelerar la venta de propiedades mediante fotografía profesional y *staging* digital impulsado por IA. Optimizada para el mercado de Paraguay y diseñada para una escalabilidad SaaS global.
+**Zynera** es una plataforma de staging digital inmobiliario que transforma propiedades vacías en espacios decorados profesionalmente mediante fotografía y post-producción. Optimizada para el mercado paraguayo.
 
 ---
 
-## 🚀 Valor Propuesto
-*   **Resultados medibles:** 3x más consultas, entrega en 48 horas.
-*   **Staging Inteligente:** Decoración virtual fotorrealista adaptada a perfiles de comprador (Mediterráneo, Manhattan, Minimalista).
-*   **Enfoque en el Agente:** Material listo para portales y redes sociales, diseñado para reducir el tiempo de rotación en inventario.
+## Estado actual
 
----
-
-## 🛠 Arquitectura Técnica
-Zynera está construida como una solución SaaS *serverless* moderna, optimizada para rendimiento en el Edge.
+Landing page estática construida con Astro, desplegada en **GitHub Pages**. El formulario envía datos mediante Web3Forms y la coordinación se maneja manualmente por email/WhatsApp.
 
 | Capa | Tecnología |
 | :--- | :--- |
 | **Framework** | [Astro](https://astro.build/) |
+| **Hosting** | GitHub Pages |
+| **Formulario** | Web3Forms |
+
+---
+
+## Roadmap SaaS
+
+La arquitectura prevista para la plataforma multi-tenant incluye:
+
+| Capa | Tecnología |
+| :--- | :--- |
+| **Framework** | Astro SSR |
 | **Hosting** | Cloudflare Pages |
-| **Base de Datos** | Cloudflare D1 (SQL) |
+| **API** | Hono en Cloudflare Workers |
+| **Auth** | Better Auth + Google OAuth |
+| **Base de Datos** | Cloudflare D1 + Drizzle |
 | **Storage** | Cloudflare R2 |
-| **Autenticación** | Lucia Auth |
-| **API/Backend** | Cloudflare Workers |
+| **Fotos** | Subida directa navegador → R2 |
 
 ---
 
 ## 📦 Estructura del Proyecto
+
 ```text
 /src
-  /components  # UI (Slider, Modal, Pricing)
+  /components  # UI (Hero, BeforeAfterSlider, FAQ, ContactModal, etc.)
   /layouts     # Layout base y estilos globales
-  /pages       # Rutas de navegación
-  /scripts     # Lógica cliente y API bridges
-/public        # Assets estáticos
+  /pages       # Rutas (index, privacidad)
+  constants.ts # Configuración central (WhatsApp, etc.)
+/public
+  /images      # Assets estáticos (antes.webp, despues.webp)
 ```
 
 ---
 
 ## 🚀 Desarrollo
-Para correr el proyecto localmente:
 
-1. Instalar dependencias:
-   ```bash
-   npm install
-   ```
-2. Iniciar servidor de desarrollo:
-   ```bash
-   npm run dev
-   ```
+```bash
+npm install
+npm run dev      # servidor local
+npm run build    # build producción → dist/
+npm run preview  # preview del build
+```
 
 ---
 
 ## 🏗 Roadmap
-- [x] Landing Page (Static MVP).
-- [ ] Implementación de Auth & Multi-tenancy (Supabase/Lucia + D1).
-- [ ] Integración de motor de IA para Staging automático.
+
+- [x] Landing page estática + wizard de staging (MVP)
+- [ ] Plataforma SaaS multi-tenant con panel de administración
+- [ ] Integración de motor de IA para staging automático
 
 ---
+
 *A LuxBase project.*

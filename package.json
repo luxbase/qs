@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "astro build"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,10 @@
     "url": "https://github.com/luxbase/Zynera/issues"
   },
   "homepage": "https://github.com/luxbase/Zynera#readme",
+  "overrides": {
+    "esbuild": "0.28.1"
+  },
   "dependencies": {
-    "astro": "^6.0.5"
+    "astro": "^6.4.6"
   }
 }
