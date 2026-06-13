@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactModal from '../components/ContactModal.astro';
+---
+
+<Layout title="Privacidad | Zynera" description="Política de privacidad y tratamiento de fotos para las pruebas de staging digital de Zynera.">
+    <Header />
+    <main class="privacy-page">
+        <section class="container privacy-content">
+            <h1>Privacidad</h1>
+            <p>
+                Zynera usa los datos que nos enviás para responder tu solicitud de staging digital, procesar la foto de prueba y entregarte el resultado por email o WhatsApp.
+            </p>
+
+            <h2>Datos que recibimos</h2>
+            <p>
+                Podemos recibir tu nombre, email, instrucciones, estilo elegido y la foto que adjuntás. Las fotos de propiedades pueden incluir información privada del inmueble o de sus ocupantes; enviá solo imágenes que estés autorizado a compartir.
+            </p>
+
+            <h2>Uso y retención</h2>
+            <p>
+                Usamos la información únicamente para preparar la prueba, coordinar la entrega y mejorar el servicio. Para el MVP manual, conservamos la foto y los datos solo el tiempo necesario para procesar y dar seguimiento a la solicitud.
+            </p>
+
+            <h2>Terceros</h2>
+            <p>
+                El formulario puede enviar datos mediante Web3Forms y la coordinación puede continuar por email o WhatsApp. Cuando el producto evolucione a SaaS, esta página deberá actualizarse con los proveedores de hosting, storage, autenticación y procesamiento que se adopten.
+            </p>
+
+            <h2>Eliminación</h2>
+            <p>
+                Podés pedir que eliminemos tus fotos y datos de la prueba respondiendo al mismo canal por el que coordinamos la entrega.
+            </p>
+        </section>
+    </main>
+    <Footer />
+    <ContactModal />
+</Layout>
+
+<style>
+    .privacy-page {
+        padding-top: 120px;
+    }
+
+    .privacy-content {
+        max-width: 840px;
+        padding-bottom: 90px;
+    }
+
+    .privacy-content h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        margin-bottom: 24px;
+    }
+
+    .privacy-content h2 {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 1.15rem;
+        margin-top: 36px;
+        margin-bottom: 10px;
+    }
+
+    .privacy-content p {
+        color: var(--text-dim);
+        font-size: 1rem;
+        max-width: 720px;
+    }
+</style>

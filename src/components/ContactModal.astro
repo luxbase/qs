@@ -1,51 +1,58 @@
 ---
+const privacyUrl = `${import.meta.env.BASE_URL}privacidad/`;
 ---
-<div class="modal" id="contactModal">
+<div class="modal" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="stepTitle1" aria-hidden="true" tabindex="-1">
     <div class="modal-content" id="modalContent">
-        <button class="modal-close" id="closeModal">&times;</button>
-        
-        <!-- Progress Bar -->
-        <div class="progress-container">
+        <button class="modal-close" id="closeModal" type="button" aria-label="Cerrar">&times;</button>
+
+        <div class="progress-container" aria-hidden="true">
             <div class="progress-bar" id="progressBar"></div>
         </div>
 
         <div id="formWrapper">
-            <form id="contactForm" enctype="multipart/form-data">
+            <form id="contactForm" enctype="multipart/form-data" novalidate>
                 <input type="hidden" name="access_key" value="08ec9f6d-e485-4aa6-a4f1-f56823048f86">
                 <input type="hidden" name="from_name" value="Zynera Staging Wizard">
-                
-                <!-- STEP 1: Identification -->
+                <input type="checkbox" name="botcheck" class="honeypot" tabindex="-1" autocomplete="off">
+
                 <div class="step active" data-step="1">
-                    <h2 class="step-title">¿A quién le enviamos la foto?</h2>
+                    <h2 class="step-title" id="stepTitle1">¿A quién le enviamos la foto?</h2>
                     <p class="step-subtitle">Ingresá tus datos para recibir el resultado procesado.</p>
+
                     <div class="form-group">
-                        <label>Nombre Completo</label>
-                        <input type="text" name="name" required placeholder="Tu nombre">
+                        <label for="contactName">Nombre Completo</label>
+                        <input type="text" name="name" id="contactName" required placeholder="Tu nombre" autocomplete="name">
                     </div>
                     <div class="form-group">
-                        <label>Email Profesional</label>
-                        <input type="email" name="email" required placeholder="tu@empresa.com">
+                        <label for="contactEmail">Email Profesional</label>
+                        <input type="email" name="email" id="contactEmail" required placeholder="tu@empresa.com" autocomplete="email">
                     </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Instrucciones</label>
+                        <textarea name="message" id="contactMessage" required placeholder="Ej: living vacío, estilo cálido, mantener pisos y ventanas"></textarea>
+                    </div>
+
                     <div class="wizard-actions">
                         <button type="button" class="btn-next">Siguiente →</button>
                     </div>
                 </div>
 
-                <!-- STEP 2: Capture -->
                 <div class="step" data-step="2">
-                    <h2 class="step-title">Subí tu foto</h2>
-                    <p class="step-subtitle">Elegí una habitación vacía o que quieras transformar.</p>
-                    
+                    <h2 class="step-title" id="stepTitle2">Subí tu foto</h2>
+                    <p class="step-subtitle">Aceptamos JPG, PNG o WebP hasta 10 MB.</p>
+
                     <div class="upload-zone" id="dropZone">
-                        <input type="file" name="attachment" id="fileInput" accept="image/*" class="file-input" required>
+                        <input type="file" name="attachment" id="fileInput" accept="image/jpeg,image/png,image/webp" class="file-input" required>
                         <div class="upload-content">
-                            <span class="upload-icon">📸</span>
+                            <span class="upload-icon" aria-hidden="true">📸</span>
                             <p id="fileStatus">Arrastrá tu foto aquí o hacé clic para buscar</p>
                         </div>
                     </div>
-                    
-                    <div id="imagePreview" class="image-preview" style="display: none;">
-                        <img src="" alt="Preview" id="previewImg">
+
+                    <p class="field-error" id="fileError" role="alert" hidden></p>
+
+                    <div id="imagePreview" class="image-preview" hidden>
+                        <img src="" alt="Vista previa de la foto seleccionada" id="previewImg">
                     </div>
 
                     <div class="wizard-actions">
@@ -54,11 +61,10 @@
                     </div>
                 </div>
 
-                <!-- STEP 3: Style -->
                 <div class="step" data-step="3">
-                    <h2 class="step-title">Elegí el estilo</h2>
+                    <h2 class="step-title" id="stepTitle3">Elegí el estilo</h2>
                     <p class="step-subtitle">¿Cómo te gustaría decorar este ambiente?</p>
-                    
+
                     <div class="style-grid">
                         <label class="style-card">
                             <input type="radio" name="style" value="Mediterráneo" checked>
@@ -85,24 +91,58 @@
 
                     <div class="wizard-actions">
                         <button type="button" class="btn-prev">← Volver</button>
-                        <button type="submit" class="btn-submit" id="submitBtn">Finalizar y Enviar →</button>
+                        <button type="button" class="btn-next">Siguiente →</button>
+                    </div>
+                </div>
+
+                <div class="step" data-step="4">
+                    <h2 class="step-title" id="stepTitle4">Confirmá el envío</h2>
+                    <p class="step-subtitle">Revisá los datos antes de enviarnos tu foto.</p>
+
+                    <dl class="summary-list">
+                        <div>
+                            <dt>Nombre</dt>
+                            <dd id="summaryName">-</dd>
+                        </div>
+                        <div>
+                            <dt>Email</dt>
+                            <dd id="summaryEmail">-</dd>
+                        </div>
+                        <div>
+                            <dt>Foto</dt>
+                            <dd id="summaryFile">-</dd>
+                        </div>
+                        <div>
+                            <dt>Estilo</dt>
+                            <dd id="summaryStyle">-</dd>
+                        </div>
+                    </dl>
+
+                    <label class="consent-row">
+                        <input type="checkbox" name="consent" id="consentInput" required>
+                        <span>Acepto que Zynera use esta foto y mis datos para procesar esta prueba. Leí la <a href={privacyUrl}>política de privacidad</a>.</span>
+                    </label>
+
+                    <p class="form-error" id="formError" role="alert" hidden></p>
+
+                    <div class="wizard-actions">
+                        <button type="button" class="btn-prev">← Volver</button>
+                        <button type="submit" class="btn-submit" id="submitBtn">Finalizar y enviar →</button>
                     </div>
                 </div>
             </form>
         </div>
 
-        <!-- Success Message -->
-        <div id="successMessage" style="display: none; text-align: center; padding: 40px 0;">
-            <div class="success-icon">✨</div>
-            <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 12px;">¡Recibido con éxito!</h2>
-            <p style="color: var(--text-dim); margin-bottom: 24px;">Nuestros diseñadores están procesando tu foto.<br/>Te enviaremos el resultado a tu email en menos de 24hs.</p>
-            <button class="btn-contact" onclick="window.dispatchEvent(new CustomEvent('toggle-modal'))">Cerrar</button>
+        <div id="successMessage" class="success-message" hidden>
+            <div class="success-icon" aria-hidden="true">✨</div>
+            <h2>¡Recibido con éxito!</h2>
+            <p>Nuestros diseñadores están procesando tu foto.<br/>Te enviaremos el resultado a tu email en menos de 24hs.</p>
+            <button class="btn-contact" id="closeSuccess" type="button">Cerrar</button>
         </div>
     </div>
 </div>
 
 <style>
-    /* --- Wizard Styles --- */
     .progress-container {
         width: 100%;
         height: 4px;
@@ -116,7 +156,7 @@
     .progress-bar {
         height: 100%;
         background: var(--accent-color);
-        width: 33.33%;
+        width: 25%;
         transition: var(--transition-smooth);
     }
 
@@ -138,6 +178,7 @@
         font-family: 'Playfair Display', serif;
         font-size: 1.8rem;
         margin-bottom: 8px;
+        padding-right: 36px;
     }
 
     .step-subtitle {
@@ -146,7 +187,6 @@
         margin-bottom: 32px;
     }
 
-    /* Upload Zone */
     .upload-zone {
         border: 2px dashed rgba(232, 194, 122, 0.2);
         border-radius: 12px;
@@ -154,7 +194,7 @@
         text-align: center;
         position: relative;
         transition: var(--transition-smooth);
-        margin-bottom: 24px;
+        margin-bottom: 12px;
         cursor: pointer;
     }
 
@@ -181,10 +221,10 @@
 
     .image-preview {
         width: 100%;
-        max-height: 200px;
+        max-height: 220px;
         overflow: hidden;
         border-radius: 8px;
-        margin-bottom: 24px;
+        margin: 20px 0 24px;
         border: 1px solid rgba(255,255,255,0.1);
     }
 
@@ -192,9 +232,9 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
     }
 
-    /* Style Selector */
     .style-grid {
         display: grid;
         gap: 12px;
@@ -221,6 +261,7 @@
         accent-color: var(--accent-color);
         width: 20px;
         height: 20px;
+        flex: 0 0 auto;
     }
 
     .style-info strong {
@@ -238,12 +279,64 @@
         background: rgba(232, 194, 122, 0.05);
     }
 
-    /* Actions */
+    .summary-list {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .summary-list div {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: 12px;
+        padding: 14px;
+        background: #252525;
+        border: 1px solid #333;
+        border-radius: 8px;
+    }
+
+    .summary-list dt {
+        color: var(--text-dim);
+        font-size: 0.85rem;
+    }
+
+    .summary-list dd {
+        color: var(--text-main);
+        overflow-wrap: anywhere;
+    }
+
+    .consent-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        color: var(--text-dim);
+        font-size: 0.86rem;
+        line-height: 1.5;
+    }
+
+    .consent-row input {
+        margin-top: 4px;
+        accent-color: var(--accent-color);
+        flex: 0 0 auto;
+    }
+
+    .consent-row a {
+        color: var(--accent-color);
+    }
+
+    .field-error,
+    .form-error {
+        color: #ffb4a8;
+        font-size: 0.86rem;
+        margin-top: 8px;
+    }
+
     .wizard-actions {
         display: flex;
         gap: 12px;
         justify-content: flex-end;
         margin-top: 32px;
+        flex-wrap: wrap;
     }
 
     .btn-prev {
@@ -271,12 +364,32 @@
         opacity: 0.9;
     }
 
+    .btn-next:disabled,
+    .btn-submit:disabled {
+        cursor: wait;
+        opacity: 0.65;
+    }
+
+    .success-message {
+        text-align: center;
+        padding: 40px 0;
+    }
+
     .success-icon {
         font-size: 4rem;
         margin-bottom: 24px;
     }
 
-    /* Standard Modal Base */
+    .success-message h2 {
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 12px;
+    }
+
+    .success-message p {
+        color: var(--text-dim);
+        margin-bottom: 24px;
+    }
+
     .modal {
         position: fixed;
         top: 0;
@@ -299,9 +412,11 @@
     .modal-content {
         background: var(--card-bg);
         padding: 48px;
-        border-radius: 24px;
-        max-width: 550px;
+        border-radius: 20px;
+        max-width: 590px;
         width: 100%;
+        max-height: calc(100svh - 40px);
+        overflow-y: auto;
         position: relative;
         border: 1px solid rgba(255,255,255,0.1);
         box-shadow: 0 40px 100px rgba(0,0,0,0.8);
@@ -309,14 +424,15 @@
 
     .modal-close {
         position: absolute;
-        top: 24px;
-        right: 24px;
+        top: 20px;
+        right: 20px;
         background: none;
         border: none;
         color: var(--text-dim);
         font-size: 2rem;
         cursor: pointer;
         z-index: 10;
+        line-height: 1;
     }
 
     .form-group {
@@ -330,7 +446,8 @@
         color: var(--text-dim);
     }
 
-    .form-group input {
+    .form-group input,
+    .form-group textarea {
         width: 100%;
         background: #252525;
         border: 1px solid #333;
@@ -338,6 +455,12 @@
         border-radius: 8px;
         color: white;
         font-family: inherit;
+        font-size: 1rem;
+    }
+
+    .form-group textarea {
+        min-height: 110px;
+        resize: vertical;
     }
 
     .btn-contact {
@@ -349,9 +472,51 @@
         cursor: pointer;
         font-weight: 500;
     }
+
+    .honeypot {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+    }
+
+    @media (max-width: 560px) {
+        .modal {
+            align-items: flex-start;
+            padding: 12px;
+        }
+
+        .modal-content {
+            padding: 40px 22px 28px;
+        }
+
+        .summary-list div {
+            grid-template-columns: 1fr;
+            gap: 4px;
+        }
+
+        .wizard-actions {
+            flex-direction: column-reverse;
+        }
+
+        .btn-prev,
+        .btn-next,
+        .btn-submit {
+            width: 100%;
+        }
+    }
+</style>
+
+<style is:global>
+    body.modal-open {
+        overflow: hidden;
+    }
 </style>
 
 <script>
+    const TOTAL_STEPS = 4;
+    const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+    const ACCEPTED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
     const modal = document.getElementById('contactModal');
     const formWrapper = document.getElementById('formWrapper');
     const successMessage = document.getElementById('successMessage');
@@ -364,40 +529,207 @@
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     const dropZone = document.getElementById('dropZone');
     const fileStatus = document.getElementById('fileStatus');
+    const fileError = document.getElementById('fileError');
+    const formError = document.getElementById('formError');
     const imagePreview = document.getElementById('imagePreview');
     const previewImg = document.getElementById('previewImg') as HTMLImageElement;
+    const closeSuccess = document.getElementById('closeSuccess');
+    const summaryName = document.getElementById('summaryName');
+    const summaryEmail = document.getElementById('summaryEmail');
+    const summaryFile = document.getElementById('summaryFile');
+    const summaryStyle = document.getElementById('summaryStyle');
 
     let currentStep = 1;
+    let previewUrl = '';
+    let lastFocusedElement: Element | null = null;
 
-    // --- Navigation Logic ---
+    const focusableSelector = [
+        'a[href]',
+        'button:not([disabled])',
+        'input:not([disabled]):not([type="hidden"])',
+        'textarea:not([disabled])',
+        'select:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])'
+    ].join(',');
+
     const updateWizard = () => {
         steps.forEach(step => {
-            const stepNum = parseInt(step.getAttribute('data-step') || "1");
+            const stepNum = parseInt(step.getAttribute('data-step') || '1');
             step.classList.toggle('active', stepNum === currentStep);
         });
-        
+
         if (progressBar) {
-            progressBar.style.width = `${(currentStep / 3) * 100}%`;
+            progressBar.style.width = `${(currentStep / TOTAL_STEPS) * 100}%`;
         }
+
+        modal?.setAttribute('aria-labelledby', `stepTitle${currentStep}`);
+
+        if (currentStep === 4) {
+            updateSummary();
+        }
+    };
+
+    const focusCurrentStep = () => {
+        const activeStep = document.querySelector(`.step[data-step="${currentStep}"]`);
+        const firstField = activeStep?.querySelector(focusableSelector) as HTMLElement | null;
+        firstField?.focus();
+    };
+
+    const setFieldError = (message = '') => {
+        if (!fileError) return;
+        fileError.textContent = message;
+        fileError.hidden = message.length === 0;
+    };
+
+    const setFormError = (message = '') => {
+        if (!formError) return;
+        formError.textContent = message;
+        formError.hidden = message.length === 0;
+    };
+
+    const revokePreviewUrl = () => {
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = '';
+        }
+    };
+
+    const clearFileSelection = () => {
+        revokePreviewUrl();
+        if (fileInput) fileInput.value = '';
+        if (previewImg) previewImg.src = '';
+        if (imagePreview) imagePreview.hidden = true;
+        if (fileStatus) fileStatus.textContent = 'Arrastrá tu foto aquí o hacé clic para buscar';
+    };
+
+    const resetFile = () => {
+        clearFileSelection();
+        fileInput?.setCustomValidity('');
+    };
+
+    const validateSelectedFile = (file: File | undefined) => {
+        if (!file) {
+            const message = 'Seleccioná una foto para continuar.';
+            fileInput?.setCustomValidity(message);
+            setFieldError(message);
+            return false;
+        }
+
+        if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
+            const message = 'Usá una imagen JPG, PNG o WebP.';
+            fileInput?.setCustomValidity(message);
+            setFieldError(message);
+            return false;
+        }
+
+        if (file.size > MAX_FILE_SIZE_BYTES) {
+            const message = 'La foto debe pesar 10 MB o menos.';
+            fileInput?.setCustomValidity(message);
+            setFieldError(message);
+            return false;
+        }
+
+        fileInput?.setCustomValidity('');
+        setFieldError('');
+        return true;
+    };
+
+    const handleFile = (file: File | undefined) => {
+        if (!validateSelectedFile(file)) {
+            clearFileSelection();
+            return false;
+        }
+
+        revokePreviewUrl();
+        previewUrl = URL.createObjectURL(file as File);
+        if (fileStatus) fileStatus.textContent = `Foto seleccionada: ${(file as File).name}`;
+        if (previewImg && imagePreview) {
+            previewImg.src = previewUrl;
+            imagePreview.hidden = false;
+        }
+        return true;
+    };
+
+    const validateStep = () => {
+        setFormError('');
+        const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+        const requiredFields = currentStepEl?.querySelectorAll('input[required], textarea[required]') || [];
+
+        for (const field of requiredFields) {
+            const input = field as HTMLInputElement | HTMLTextAreaElement;
+            if (input instanceof HTMLInputElement && input.type === 'file') {
+                continue;
+            }
+            if (!input.checkValidity()) {
+                input.reportValidity();
+                return false;
+            }
+        }
+
+        if (currentStep === 2) {
+            const validFile = validateSelectedFile(fileInput?.files?.[0]);
+            if (!validFile) {
+                fileInput?.reportValidity();
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    const updateSummary = () => {
+        const name = (document.getElementById('contactName') as HTMLInputElement | null)?.value || '-';
+        const email = (document.getElementById('contactEmail') as HTMLInputElement | null)?.value || '-';
+        const fileName = fileInput?.files?.[0]?.name || '-';
+        const style = (contactForm?.querySelector('input[name="style"]:checked') as HTMLInputElement | null)?.value || '-';
+
+        if (summaryName) summaryName.textContent = name;
+        if (summaryEmail) summaryEmail.textContent = email;
+        if (summaryFile) summaryFile.textContent = fileName;
+        if (summaryStyle) summaryStyle.textContent = style;
+    };
+
+    const resetWizard = () => {
+        currentStep = 1;
+        contactForm?.reset();
+        resetFile();
+        setFieldError('');
+        setFormError('');
+        if (formWrapper) formWrapper.hidden = false;
+        if (successMessage) successMessage.hidden = true;
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Finalizar y enviar →';
+        }
+        updateWizard();
+    };
+
+    const openModal = () => {
+        if (!modal) return;
+        lastFocusedElement = document.activeElement;
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        updateWizard();
+        window.setTimeout(focusCurrentStep, 0);
+    };
+
+    const closeModal = () => {
+        if (!modal) return;
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        window.setTimeout(resetWizard, 300);
+        (lastFocusedElement as HTMLElement | null)?.focus?.();
     };
 
     nextBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Basic validation
-            const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
-            const inputs = currentStepEl?.querySelectorAll('input[required]');
-            let valid = true;
-            
-            inputs?.forEach(input => {
-                if (!(input as HTMLInputElement).value) {
-                    (input as HTMLInputElement).reportValidity();
-                    valid = false;
-                }
-            });
-
-            if (valid && currentStep < 3) {
+            if (!validateStep()) return;
+            if (currentStep < TOTAL_STEPS) {
                 currentStep++;
                 updateWizard();
+                focusCurrentStep();
             }
         });
     });
@@ -407,11 +739,11 @@
             if (currentStep > 1) {
                 currentStep--;
                 updateWizard();
+                focusCurrentStep();
             }
         });
     });
 
-    // --- File Handling ---
     fileInput?.addEventListener('change', (e) => {
         const file = (e.target as HTMLInputElement).files?.[0];
         handleFile(file);
@@ -430,57 +762,65 @@
         e.preventDefault();
         dropZone.classList.remove('dragover');
         const file = e.dataTransfer?.files[0];
-        if (file) {
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            fileInput.files = dataTransfer.files;
-            handleFile(file);
+        if (!file || !validateSelectedFile(file)) {
+            clearFileSelection();
+            return;
+        }
+
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        fileInput.files = dataTransfer.files;
+        handleFile(file);
+    });
+
+    window.addEventListener('toggle-modal', () => {
+        if (modal?.classList.contains('active')) {
+            closeModal();
+        } else {
+            openModal();
         }
     });
 
-    function handleFile(file: File | undefined) {
-        if (file && file.type.startsWith('image/')) {
-            if (fileStatus) fileStatus.innerText = `Foto seleccionada: ${file.name}`;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                if (previewImg && imagePreview) {
-                    previewImg.src = e.target?.result as string;
-                    imagePreview.style.display = 'block';
-                }
-            };
-            reader.readAsDataURL(file);
+    document.getElementById('closeModal')?.addEventListener('click', closeModal);
+    closeSuccess?.addEventListener('click', closeModal);
+
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    modal?.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeModal();
+            return;
         }
-    }
 
-    // --- Modal Control ---
-    const toggleModal = () => {
-        if (modal) {
-            modal.classList.toggle('active');
-            if (!modal.classList.contains('active')) {
-                // Reset on close
-                setTimeout(() => {
-                    currentStep = 1;
-                    updateWizard();
-                    if (formWrapper) formWrapper.style.display = 'block';
-                    if (successMessage) successMessage.style.display = 'none';
-                    if (imagePreview) imagePreview.style.display = 'none';
-                    if (fileStatus) fileStatus.innerText = 'Arrastrá tu foto aquí o hacé clic para buscar';
-                    contactForm?.reset();
-                }, 500);
-            }
+        if (e.key !== 'Tab') return;
+
+        const focusable = Array.from(modal.querySelectorAll(focusableSelector))
+            .filter(el => (el as HTMLElement).offsetParent !== null) as HTMLElement[];
+
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
         }
-    };
+    });
 
-    window.addEventListener('toggle-modal', toggleModal);
-    document.getElementById('closeModal')?.addEventListener('click', toggleModal);
-
-    // --- Submit Logic ---
     contactForm?.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
+        if (!validateStep()) return;
+
         if (submitBtn) {
             submitBtn.disabled = true;
-            submitBtn.innerText = 'Enviando...';
+            submitBtn.textContent = 'Enviando...';
         }
 
         const formData = new FormData(contactForm);
@@ -490,28 +830,36 @@
             body: formData
         })
         .then(async (response) => {
-            if (response.status == 200) {
-                if (formWrapper) formWrapper.style.display = 'none';
-                if (successMessage) successMessage.style.display = 'block';
+            if (response.ok) {
+                if (formWrapper) formWrapper.hidden = true;
+                if (successMessage) successMessage.hidden = false;
                 if (progressBar) progressBar.style.width = '100%';
-                
-                setTimeout(() => {
+                closeSuccess?.focus();
+
+                window.setTimeout(() => {
                     if (modal?.classList.contains('active')) {
-                        toggleModal();
+                        closeModal();
                     }
-                }, 10000); // 10s for wizard success
-            } else {
-                let json = await response.json();
-                alert("Error: " + json.message);
+                }, 10000);
+                return;
             }
+
+            let message = 'No pudimos enviar la solicitud. Intentá de nuevo.';
+            try {
+                const json = await response.json();
+                if (json?.message) message = json.message;
+            } catch {
+                // Keep the generic message when the provider returns a non-JSON error.
+            }
+            setFormError(message);
         })
-        .catch(error => {
-            alert("Algo salió mal. Por favor intenta de nuevo.");
+        .catch(() => {
+            setFormError('Algo salió mal. Por favor intentá de nuevo.');
         })
-        .then(function() {
+        .finally(() => {
             if (submitBtn) {
                 submitBtn.disabled = false;
-                submitBtn.innerText = 'Finalizar y Enviar →';
+                submitBtn.textContent = 'Finalizar y enviar →';
             }
         });
     });

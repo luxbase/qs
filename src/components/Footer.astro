@@ -1,8 +1,10 @@
 ---
+const baseUrl = import.meta.env.BASE_URL;
+const privacyUrl = `${baseUrl}privacidad/`;
 ---
 <footer>
     <div class="container">
-        <a href="#" class="logo footer-logo">
+        <a href={baseUrl} class="logo footer-logo" aria-label="Inicio de Zynera">
             <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 30V10H30" stroke="#e8c27a" stroke-width="4" stroke-linecap="square"/>
                 <path d="M30 15H15V30" stroke="#e8c27a" stroke-width="2.5" stroke-linecap="square"/>
@@ -12,6 +14,7 @@
         </a>
         <p>&copy; 2026 Zynera Marketing Inmobiliario. Todos los derechos reservados.</p>
         <p style="font-size: 0.8rem; margin-top: 8px; color: var(--text-dim);">Asunción, Paraguay</p>
+        <p class="footer-links"><a href={privacyUrl}>Privacidad</a></p>
         <p class="project-credit">A LuxBase project</p>
     </div>
 </footer>
@@ -53,5 +56,19 @@
         letter-spacing: 2px;
         text-transform: uppercase;
         color: rgba(255,255,255,0.2);
+    }
+
+    .footer-links {
+        margin-top: 14px;
+        font-size: 0.85rem;
+    }
+
+    .footer-links a {
+        color: var(--text-dim);
+        text-decoration: none;
+    }
+
+    .footer-links a:hover {
+        color: var(--accent-color);
     }
 </style>

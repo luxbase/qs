@@ -55,9 +55,11 @@ const { title, description = "Transformamos propiedades en anuncios profesionale
 	h1, h2, h3 {
 		font-family: 'Playfair Display', serif;
 		font-weight: 600;
+		overflow-wrap: anywhere;
 	}
 
 	.container {
+		width: 100%;
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 0 24px;
@@ -94,7 +96,15 @@ const { title, description = "Transformamos propiedades en anuncios profesionale
 	}
 
 	@media (max-width: 768px) {
-		.section-header h2 { font-size: 2rem; }
+		.section-header h2 {
+			font-size: 1.55rem;
+			line-height: 1.15;
+			max-width: 300px;
+		}
+
+		.section-header p {
+			max-width: 300px;
+		}
 	}
 </style>
 

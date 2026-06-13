@@ -1,8 +1,11 @@
 ---
+const baseUrl = import.meta.env.BASE_URL;
+const isHomePage = Astro.url.pathname === baseUrl;
+const homeAnchorPrefix = isHomePage ? '' : baseUrl;
 ---
 <header>
     <div class="container nav">
-        <a href="/" class="logo">
+        <a href={baseUrl} class="logo" aria-label="Inicio de Zynera">
             <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 30V10H30" stroke="#e8c27a" stroke-width="4" stroke-linecap="square"/>
                 <path d="M30 15H15V30" stroke="#e8c27a" stroke-width="2.5" stroke-linecap="square"/>
@@ -11,13 +14,13 @@
             <span class="logo-text">Zynera</span>
         </a>
         <div class="nav-links">
-            <a href="#servicios">Servicios</a>
-            <a href="#proceso">Proceso</a>
-            <a href="#resultados">Resultados</a>
-            <a href="#faq">FAQ</a>
+            <a href={`${homeAnchorPrefix}#servicios`}>Servicios</a>
+            <a href={`${homeAnchorPrefix}#proceso`}>Proceso</a>
+            <a href={`${homeAnchorPrefix}#resultados`}>Resultados</a>
+            <a href={`${homeAnchorPrefix}#faq`}>FAQ</a>
         </div>
         <div class="header-actions">
-            <button class="btn-contact" id="openContact">Probar sistema →</button>
+            <button class="btn-contact" id="openContact" type="button">Probar sistema →</button>
             <a href="https://wa.me/595981123456?text=Hola%20Zynera!%20Quisiera%20recibir%20informaci%C3%B3n%20sobre%20sus%20servicios%20de%20staging%20digital." class="btn-whatsapp">WhatsApp</a>
         </div>
     </div>
@@ -69,8 +72,6 @@
         gap: 12px;
         text-decoration: none;
     }
-...
-
 
     .logo-mark {
         width: 32px;
@@ -122,6 +123,25 @@
         align-items: center;
         gap: 8px;
         transition: var(--transition-smooth);
+    }
+
+    @media (max-width: 560px) {
+        header {
+            padding: 18px 0;
+        }
+
+        .logo {
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            letter-spacing: 3px;
+        }
+
+        .header-actions {
+            display: none;
+        }
     }
 </style>
 
