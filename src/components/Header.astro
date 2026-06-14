@@ -1,6 +1,5 @@
 ---
 import { t, LANGUAGES, type Lang } from '../i18n';
-import { WHATSAPP_URL } from '../constants';
 
 interface Props { lang: Lang }
 
@@ -29,7 +28,7 @@ const langPrefix = lang === 'es' ? baseUrl : `${baseUrl}${lang}/`;
         </div>
         <div class="header-actions">
             <button class="btn-contact" id="openContact" type="button">{dict.header.cta}</button>
-            <a href={WHATSAPP_URL} class="btn-whatsapp" target="_blank" rel="noopener">{dict.header.whatsapp}</a>
+            <a href={dict.header.whatsappUrl} class="btn-whatsapp" target="_blank" rel="noopener">{dict.header.whatsapp}</a>
             <div class="lang-switcher">
                 <button class="lang-btn" id="langBtn" type="button" aria-label={dict.languageSelector}>
                     {lang.toUpperCase()}
@@ -45,7 +44,7 @@ const langPrefix = lang === 'es' ? baseUrl : `${baseUrl}${lang}/`;
         </div>
     </div>
 </header>
-<a href={WHATSAPP_URL} class="wa-fab" id="waFab" target="_blank" rel="noopener" aria-label={dict.header.whatsapp}>&#128222;</a>
+<a href={dict.header.whatsappUrl} class="wa-fab" id="waFab" target="_blank" rel="noopener" aria-label={dict.header.whatsapp}>&#128222;</a>
 
 <style>
     header {

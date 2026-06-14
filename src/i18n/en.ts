@@ -10,6 +10,7 @@ export default {
   },
   header: {
     homeLabel: 'Zynera Home',
+    whatsappUrl: 'https://wa.me/595981123456?text=Hi%20Zynera!%20I%27d%20like%20information%20about%20your%20digital%20staging%20services.',
     servicios: 'Services',
     proceso: 'Process',
     resultados: 'Results',
