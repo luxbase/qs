@@ -3,91 +3,79 @@
 <section id="servicios" class="section-padding reveal">
     <div class="container">
         <div class="section-header">
-            <h2>Planes diseñados para vender</h2>
-            <p>Desde departamentos compactos hasta residencias de lujo.</p>
+            <h2>Dos formas de mejorar tu publicación</h2>
+            <p>Elegís cuánto trabajo querés delegar. El resultado es el mismo.</p>
         </div>
-        <div class="services-grid">
+        <div class="pricing-grid">
             <div class="pricing-card">
-                <span class="tier-name">BÁSICO</span>
-                <div class="tier-price">$75 <span>/ Propiedad</span></div>
+                <span class="tier-badge">HANDOFF</span>
+                <div class="tier-price">$49 <span>/ publicación</span></div>
+                <p class="tier-tagline">Vos subís, nosotros mejoramos.</p>
                 <ul class="tier-features">
-                    <li>Fotografía profesional</li>
-                    <li>Edición avanzada de luz</li>
-                    <li>Entrega en 48hs</li>
-                    <li>Ideal para alquileres</li>
+                    <li>Fotos mejoradas: corrección de luz y color</li>
+                    <li>Staging digital en ambientes vacíos</li>
+                    <li>Texto reescrito, sin errores, atractivo</li>
+                    <li>Entrega en ZIP en 24hs</li>
+                    <li>Vos subís al portal (InfoCasas, Zonaprop, etc.)</li>
                 </ul>
+                <button class="btn-tier" type="button" data-mode="Handoff">Empezar — $49</button>
             </div>
-            <div class="pricing-card popular">
-                <span class="tier-name">PREMIUM</span>
-                <div class="tier-price">$180 <span>/ Propiedad</span></div>
+            <div class="pricing-card featured">
+                <span class="tier-badge">COMPLETO</span>
+                <div class="tier-price">$89 <span>/ publicación</span></div>
+                <p class="tier-tagline">Lo hacemos todo, vos solo aprobás.</p>
                 <ul class="tier-features">
-                    <li>Fotografía profesional</li>
-                    <li>Decoración virtual (Social)</li>
-                    <li>Reel para Instagram/TikTok</li>
-                    <li>Entrega en 48hs</li>
+                    <li>Todo lo del plan Handoff incluido</li>
+                    <li>Acceso temporal a tu portal</li>
+                    <li>Subimos y publicamos por vos</li>
+                    <li>Sin que toques el sistema</li>
+                    <li>Credenciales eliminadas tras la entrega</li>
                 </ul>
-            </div>
-            <div class="pricing-card">
-                <span class="tier-name">ELITE</span>
-                <div class="tier-price">$380 <span>/ Propiedad</span></div>
-                <ul class="tier-features">
-                    <li>Cobertura total</li>
-                    <li>Staging virtual completo</li>
-                    <li>Tomas con Drone</li>
-                    <li>Página web propia</li>
-                </ul>
+                <button class="btn-tier btn-tier-primary" type="button" data-mode="Completo">Empezar — $89</button>
             </div>
         </div>
+        <p class="pricing-note">Hasta 15 fotos incluidas · +$3 por foto adicional · Pagás en guaraníes o transferencia</p>
     </div>
 </section>
 
 <style>
-    .services-grid {
+    .pricing-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 32px;
+        gap: 24px;
+        max-width: 800px;
+        margin: 0 auto;
     }
 
     .pricing-card {
         background: var(--card-bg);
-        padding: 48px;
+        padding: 40px;
         border-radius: 24px;
         border: 1px solid rgba(255, 255, 255, 0.05);
         display: flex;
         flex-direction: column;
-        position: relative;
-        overflow: hidden;
+        gap: 0;
     }
 
-    .pricing-card.popular {
+    .pricing-card.featured {
         border-color: var(--accent-color);
+        position: relative;
     }
 
-    .pricing-card.popular::before {
-        content: "MÁS ELEGIDO";
-        position: absolute;
-        top: 20px;
-        right: -30px;
-        background: var(--accent-color);
-        color: var(--bg-color);
-        font-size: 0.7rem;
-        font-weight: 800;
-        padding: 4px 40px;
-        transform: rotate(45deg);
-    }
-
-    .tier-name {
-        font-size: 0.9rem;
+    .tier-badge {
+        font-size: 0.75rem;
         letter-spacing: 2px;
         color: var(--accent-color);
-        margin-bottom: 16px;
         font-weight: 700;
+        margin-bottom: 12px;
+        display: block;
     }
 
     .tier-price {
-        font-size: 3rem;
-        margin-bottom: 32px;
+        font-size: 2.8rem;
         font-family: 'Playfair Display', serif;
+        line-height: 1;
+        margin-bottom: 8px;
     }
 
     .tier-price span {
@@ -96,22 +84,82 @@
         font-family: 'DM Sans', sans-serif;
     }
 
+    .tier-tagline {
+        color: var(--text-dim);
+        font-size: 0.9rem;
+        margin-bottom: 28px;
+        font-style: italic;
+    }
+
     .tier-features {
         list-style: none;
         flex-grow: 1;
+        margin-bottom: 32px;
     }
 
     .tier-features li {
-        margin-bottom: 16px;
+        margin-bottom: 12px;
         color: var(--text-dim);
         display: flex;
-        align-items: center;
-        gap: 12px;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.92rem;
+        line-height: 1.4;
     }
 
     .tier-features li::before {
         content: "✓";
         color: var(--accent-color);
         font-weight: bold;
+        flex-shrink: 0;
+        margin-top: 1px;
+    }
+
+    .btn-tier {
+        width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: 'DM Sans', sans-serif;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #fff;
+    }
+
+    .btn-tier:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+    }
+
+    .btn-tier-primary {
+        background: var(--accent-color);
+        border-color: var(--accent-color);
+        color: #0f0f0f;
+    }
+
+    .btn-tier-primary:hover {
+        background: #d4ae65;
+        border-color: #d4ae65;
+        color: #0f0f0f;
+    }
+
+    .pricing-note {
+        text-align: center;
+        color: var(--text-dim);
+        font-size: 0.82rem;
+        margin-top: 24px;
+        opacity: 0.7;
     }
 </style>
+
+<script>
+    document.querySelectorAll('.btn-tier').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const mode = btn.getAttribute('data-mode');
+            window.dispatchEvent(new CustomEvent('open-modal-mode', { detail: { mode } }));
+        });
+    });
+</script>

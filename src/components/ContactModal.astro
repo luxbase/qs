@@ -5,7 +5,7 @@ const SUBMITKIT_URL = "https://submitkit.dev/api/f/cmqcre2ma0004sp2dmw531c4e";
 <div class="modal" id="zyneraModal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-content">
         <div class="modal-header">
-            <span class="modal-title">Solicitud de Staging Digital</span>
+            <span class="modal-title">Mejorar mi publicación</span>
             <button class="modal-close" id="closeModal" type="button" aria-label="Cerrar">&times;</button>
         </div>
 
@@ -31,6 +31,8 @@ const SUBMITKIT_URL = "https://submitkit.dev/api/f/cmqcre2ma0004sp2dmw531c4e";
                     <label class="step-label" for="email">¿Cuál es tu email?</label>
                     <input type="email" id="email" class="input" name="Email" placeholder="tu@email.com" required autocomplete="email">
                     <span class="error-msg" id="emailError"></span>
+                    <label class="step-label-optional" for="whatsapp">WhatsApp (opcional)</label>
+                    <input type="tel" id="whatsapp" class="input" name="WhatsApp" placeholder="+595 9XX XXX XXX" autocomplete="tel">
                 </div>
 
                 <div class="step-panel" data-step="3">
@@ -51,7 +53,25 @@ const SUBMITKIT_URL = "https://submitkit.dev/api/f/cmqcre2ma0004sp2dmw531c4e";
                 </div>
 
                 <div class="step-panel" data-step="4">
-                    <label class="step-label">Estilo deseado</label>
+                    <label class="step-label">¿Cómo preferís recibir tu publicación?</label>
+                    <div class="mode-options">
+                        <label class="mode-option">
+                            <input type="radio" name="Servicio" value="Handoff" required>
+                            <span>
+                                <strong>Handoff — $49</strong>
+                                <small>Te enviamos el ZIP, vos subís</small>
+                            </span>
+                        </label>
+                        <label class="mode-option">
+                            <input type="radio" name="Servicio" value="Completo">
+                            <span>
+                                <strong>Completo — $89</strong>
+                                <small>Publicamos nosotros en tu portal</small>
+                            </span>
+                        </label>
+                    </div>
+                    <span class="error-msg" id="modeError"></span>
+                    <label class="step-label" style="margin-top: 20px;">Estilo deseado</label>
                     <div class="style-options">
                         <label class="style-option">
                             <input type="radio" name="Estilo" value="Mediterráneo" required>
@@ -88,8 +108,8 @@ const SUBMITKIT_URL = "https://submitkit.dev/api/f/cmqcre2ma0004sp2dmw531c4e";
 
         <div id="successContainer" style="display:none">
             <div class="success-icon">&#10003;</div>
-            <h2>¡Solicitud enviada!</h2>
-            <p>Recibimos tu informaci&oacute;n. Te contactaremos pronto.</p>
+            <h2>¡Listo!</h2>
+            <p>Recibimos tu solicitud. Te contactamos en menos de 1 hora para coordinar los detalles.</p>
             <button class="btn-new" id="btnNew" type="button">Nueva solicitud</button>
         </div>
 
@@ -320,6 +340,61 @@ const SUBMITKIT_URL = "https://submitkit.dev/api/f/cmqcre2ma0004sp2dmw531c4e";
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .step-label-optional {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #a0a0a0;
+        margin-top: 16px;
+    }
+
+    /* Mode options */
+    .mode-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .mode-option {
+        display: flex;
+    }
+
+    .mode-option input { display: none; }
+
+    .mode-option span {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 14px 16px;
+        background: #262626;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 100%;
+    }
+
+    .mode-option strong {
+        font-size: 0.95rem;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .mode-option small {
+        font-size: 0.8rem;
+        color: #a0a0a0;
+    }
+
+    .mode-option input:checked + span {
+        background: rgba(232,194,122,0.12);
+        border-color: #e8c27a;
+    }
+
+    .mode-option input:checked + span strong { color: #e8c27a; }
+
+    .mode-option span:hover {
+        border-color: rgba(255,255,255,0.2);
     }
 
     /* Style options */
@@ -632,9 +707,10 @@ const SUBMITKIT_URL = "https://submitkit.dev/api/f/cmqcre2ma0004sp2dmw531c4e";
                 break;
             }
             case 4: {
+                const mode = FORM.querySelector('input[name="Servicio"]:checked');
                 const style = FORM.querySelector('input[name="Estilo"]:checked');
                 const consent = FORM.querySelector('input[name="Consentimiento"]:checked');
-                btn.disabled = !style || !consent;
+                btn.disabled = !mode || !style || !consent;
                 break;
             }
         }
@@ -663,6 +739,15 @@ const SUBMITKIT_URL = "https://submitkit.dev/api/f/cmqcre2ma0004sp2dmw531c4e";
 
     window.addEventListener('toggle-modal', () => {
         MODAL?.classList.contains('active') ? closeModal() : openModal();
+    });
+
+    window.addEventListener('open-modal-mode', (e) => {
+        openModal();
+        const mode = e.detail?.mode;
+        if (mode) {
+            const radio = FORM.querySelector(`input[name="Servicio"][value="${mode}"]`);
+            if (radio) { radio.checked = true; validateStep(4); }
+        }
     });
 
     // Input validation on change
@@ -744,7 +829,11 @@ const SUBMITKIT_URL = "https://submitkit.dev/api/f/cmqcre2ma0004sp2dmw531c4e";
         validateStep(3);
     }
 
-    // Style + consent validation
+    // Mode, style + consent validation
+    FORM.querySelectorAll('input[name="Servicio"]').forEach(r => {
+        r.addEventListener('change', () => validateStep(4));
+    });
+
     FORM.querySelectorAll('input[name="Estilo"]').forEach(r => {
         r.addEventListener('change', () => validateStep(4));
     });
@@ -772,7 +861,10 @@ const SUBMITKIT_URL = "https://submitkit.dev/api/f/cmqcre2ma0004sp2dmw531c4e";
         const fd = new FormData();
         fd.append('Nombre', els('name').value.trim());
         fd.append('Email', els('email').value.trim());
+        const wa = els('whatsapp').value.trim();
+        if (wa) fd.append('WhatsApp', wa);
         if (fileData) fd.append('Foto', fileData);
+        fd.append('Servicio', FORM.querySelector('input[name="Servicio"]:checked').value);
         fd.append('Estilo', FORM.querySelector('input[name="Estilo"]:checked').value);
         fd.append('Consentimiento', 'Acepto');
 

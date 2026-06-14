@@ -2,8 +2,13 @@
 ---
 <section class="hero reveal">
     <div class="container">
-        <h1>Tus propiedades, irresistibles. <br/>En 24 horas.</h1>
-        <p>Fotos mejoradas, texto sin errores y ambientes decorados digitalmente — para que tu propiedad venda sola.</p>
+        <p class="hero-eyebrow">Servicio 100% remoto · Todo Paraguay</p>
+        <h1>Tu listing, irresistible.<br/>En 24 horas.</h1>
+        <p class="hero-sub">Mandanos las fotos y el texto. Nosotros las mejoramos, decoramos digitalmente y corregimos todo — vos solo publicás.</p>
+        <div class="hero-cta">
+            <button class="btn-primary" id="heroCtaBtn" type="button">Mejorar mi publicación</button>
+            <span class="hero-modes">Handoff $49 · Completo $89</span>
+        </div>
     </div>
 </section>
 
@@ -15,6 +20,15 @@
         background: radial-gradient(circle at center, rgba(232, 194, 122, 0.05) 0%, transparent 70%);
     }
 
+    .hero-eyebrow {
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent-color);
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
     .hero h1 {
         font-size: clamp(2.5rem, 5vw, 4rem);
         line-height: 1.1;
@@ -24,11 +38,41 @@
         margin-right: auto;
     }
 
-    .hero p {
+    .hero-sub {
         color: var(--text-dim);
         font-size: 1.2rem;
         max-width: 600px;
         margin: 0 auto 40px;
+    }
+
+    .hero-cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .btn-primary {
+        background: var(--accent-color);
+        color: #0f0f0f;
+        border: none;
+        padding: 16px 40px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.15s;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-primary:hover {
+        background: #d4ae65;
+        transform: translateY(-1px);
+    }
+
+    .hero-modes {
+        font-size: 0.85rem;
+        color: var(--text-dim);
     }
 
     @media (max-width: 768px) {
@@ -41,9 +85,15 @@
             max-width: 300px;
         }
 
-        .hero p {
+        .hero-sub {
             font-size: 1.05rem;
             max-width: 280px;
         }
     }
 </style>
+
+<script>
+    document.getElementById('heroCtaBtn')?.addEventListener('click', () => {
+        window.dispatchEvent(new Event('toggle-modal'));
+    });
+</script>
