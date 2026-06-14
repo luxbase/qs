@@ -1,6 +1,6 @@
 # Qualis Studio
 
-> Transform any visual into its best version.
+> Increase the perceived value of each property within 24 hours.
 
 **Qualis Studio** is a premium visual transformation service — digital staging, photo enhancement, and visual content powered by AI. Optimized for the Paraguayan market, trilingual (ES/EN/PT).
 
