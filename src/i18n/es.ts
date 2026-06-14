@@ -19,9 +19,9 @@ export default {
     whatsapp: 'WhatsApp',
   },
   hero: {
-    h1: 'Transformá cualquier visual en su mejor versión.',
-    p: 'De fotos de propiedades a sitios web y activos de marketing — IA premium al servicio de tu marca.',
-    cta: 'Solicitar →',
+    h1: 'Aumenta el valor percibido de cada propiedad.',
+    p: 'Fotos mejoradas, texto sin errores y ambientes decorados digitalmente en 24 horas — para que tu propiedad venda sola.',
+    cta: 'Mejorar mi publicación →',
   },
   comparison: {
     heading: 'Visualizá el impacto',
