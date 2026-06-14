@@ -6,7 +6,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const dict = t(lang);
 const baseUrl = import.meta.env.BASE_URL;
-const langPrefix = lang === 'es' ? baseUrl : `${baseUrl}${lang}/`;
+const langPrefix = `${baseUrl}${lang}/`;
 ---
 <footer>
     <div class="container">
