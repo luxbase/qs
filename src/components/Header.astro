@@ -26,8 +26,18 @@ const langPrefix = `${baseUrl}${lang}/`;
             <a href={`${homeAnchorPrefix}#nosotros`}>{dict.header.nosotros}</a>
         </div>
         <div class="header-actions">
-            <button class="btn-contact" id="openContact" type="button">{dict.header.cta}</button>
-            <a href={dict.header.whatsappUrl} class="btn-whatsapp" target="_blank" rel="noopener">{dict.header.whatsapp}</a>
+            <button class="btn-contact" id="openContact" type="button">
+                <span class="btn-label">{dict.header.cta}</span>
+                <svg class="btn-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+            </button>
+            <a href={dict.header.whatsappUrl} class="btn-whatsapp" target="_blank" rel="noopener">
+                <span class="btn-label">{dict.header.whatsapp}</span>
+                <svg class="btn-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+            </a>
             <div class="lang-switcher">
                 <button class="lang-btn" id="langBtn" type="button" aria-label={dict.languageSelector}>
                     {lang.toUpperCase()}
@@ -40,10 +50,65 @@ const langPrefix = `${baseUrl}${lang}/`;
                     ))}
                 </div>
             </div>
+            <button class="hamburger" id="hamburger" type="button" aria-label="Menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
         </div>
     </div>
+
+    <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true"></div>
+
+    <div class="mobile-panel" id="mobilePanel" aria-hidden="true">
+        <div class="mobile-panel-header">
+            <span class="mobile-panel-title">Menu</span>
+            <button class="mobile-close" id="mobileClose" type="button" aria-label="Cerrar menú">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <nav class="mobile-nav">
+            <a href={`${homeAnchorPrefix}#servicios`} class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                {dict.header.servicios}
+            </a>
+            <a href={`${homeAnchorPrefix}#proceso`} class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+                {dict.header.proceso}
+            </a>
+            <a href={`${homeAnchorPrefix}#resultados`} class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+                {dict.header.resultados}
+            </a>
+            <a href={`${homeAnchorPrefix}#faq`} class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                {dict.header.faq}
+            </a>
+            <a href={`${homeAnchorPrefix}#nosotros`} class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                {dict.header.nosotros}
+            </a>
+        </nav>
+    </div>
 </header>
-<a href={dict.header.whatsappUrl} class="wa-fab" id="waFab" target="_blank" rel="noopener" aria-label={dict.header.whatsapp}>&#128222;</a>
+<a href={dict.header.whatsappUrl} class="wa-fab" id="waFab" target="_blank" rel="noopener" aria-label={dict.header.whatsapp}>
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+</a>
 
 <style>
     header {
@@ -53,6 +118,7 @@ const langPrefix = `${baseUrl}${lang}/`;
         z-index: 1000;
         background: rgba(15, 15, 15, 0.8);
         backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         padding: 20px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
@@ -91,6 +157,7 @@ const langPrefix = `${baseUrl}${lang}/`;
         align-items: flex-start;
         text-decoration: none;
         line-height: 1;
+        flex-shrink: 0;
     }
 
     .logo-main {
@@ -130,7 +197,7 @@ const langPrefix = `${baseUrl}${lang}/`;
     .header-actions {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 8px;
     }
 
     .btn-contact {
@@ -144,6 +211,10 @@ const langPrefix = `${baseUrl}${lang}/`;
         font-weight: 500;
         transition: var(--transition-smooth);
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: 'DM Sans', sans-serif;
     }
 
     .btn-contact:hover {
@@ -161,8 +232,12 @@ const langPrefix = `${baseUrl}${lang}/`;
         font-weight: 700;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         transition: var(--transition-smooth);
+    }
+
+    .btn-icon {
+        display: none;
     }
 
     .wa-fab {
@@ -257,36 +332,240 @@ const langPrefix = `${baseUrl}${lang}/`;
         color: var(--accent-color);
     }
 
+    /* Hamburger menu */
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        width: 40px;
+        height: 40px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        cursor: pointer;
+        padding: 0;
+        transition: all 0.2s;
+    }
+
+    .hamburger:hover {
+        border-color: var(--accent-color);
+    }
+
+    .hamburger-line {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--text-dim);
+        border-radius: 2px;
+        transition: all 0.3s;
+    }
+
+    .hamburger.active .hamburger-line:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    .hamburger.active .hamburger-line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .hamburger-line:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+    }
+
+    @media (max-width: 899px) {
+        .hamburger { display: flex; }
+    }
+
+    /* Mobile overlay */
+    .mobile-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1001;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+    }
+
+    .mobile-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Mobile panel */
+    .mobile-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(320px, 80vw);
+        height: 100dvh;
+        height: 100vh;
+        background: #141414;
+        border-left: 1px solid rgba(255, 255, 255, 0.06);
+        z-index: 1002;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        padding-top: calc(24px + env(safe-area-inset-top, 0px));
+    }
+
+    .mobile-panel.open {
+        transform: translateX(0);
+    }
+
+    .mobile-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        margin-bottom: 20px;
+    }
+
+    .mobile-panel-title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-dim);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .mobile-close {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        cursor: pointer;
+        color: var(--text-dim);
+        transition: all 0.2s;
+    }
+
+    .mobile-close:hover {
+        color: var(--accent-color);
+        border-color: var(--accent-color);
+    }
+
+    .mobile-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .mobile-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        color: #d0d0d0;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 500;
+        border-radius: 12px;
+        transition: all 0.2s;
+    }
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link:focus-visible {
+        background: rgba(255,255,255,0.06);
+        color: var(--accent-color);
+    }
+
+    .mobile-nav-link svg {
+        flex-shrink: 0;
+        opacity: 0.5;
+    }
+
+    .mobile-nav-link:hover svg {
+        opacity: 1;
+    }
+
+    /* Mobile breakpoints */
     @media (max-width: 560px) {
         header {
-            padding: 18px 0;
+            padding: 12px 0;
         }
 
         .logo-main {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
 
         .logo-sub {
-            font-size: 0.55rem;
-        }
-
-        .header-actions .btn-contact {
             display: none;
         }
 
+        .btn-contact,
         .btn-whatsapp {
-            padding: 8px 12px;
-            font-size: 0.8rem;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-contact {
+            border-radius: 50%;
+        }
+
+        .btn-label {
+            display: none;
+        }
+
+        .btn-icon {
+            display: block;
+        }
+
+        .btn-whatsapp {
+            padding: 0;
         }
 
         .lang-btn {
             padding: 4px 8px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
+        }
+
+        .header-actions {
+            gap: 6px;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .header-actions {
+            gap: 4px;
+        }
+
+        .hamburger {
+            width: 36px;
+            height: 36px;
+        }
+    }
+
+    @supports (padding-top: env(safe-area-inset-top)) {
+        header {
+            padding-top: calc(20px + env(safe-area-inset-top, 0px));
+        }
+
+        @media (max-width: 560px) {
+            header {
+                padding-top: calc(12px + env(safe-area-inset-top, 0px));
+            }
         }
     }
 </style>
 
 <script>
+    // Open contact modal
     document.getElementById('openContact')?.addEventListener('click', () => {
         window.dispatchEvent(new CustomEvent('toggle-modal'));
     });
@@ -311,4 +590,49 @@ const langPrefix = `${baseUrl}${lang}/`;
         langDropdown?.classList.toggle('open');
     });
     document.addEventListener('click', () => langDropdown?.classList.remove('open'));
+
+    // --- Mobile Menu ---
+    const hamburger = document.getElementById('hamburger');
+    const mobilePanel = document.getElementById('mobilePanel');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const mobileClose = document.getElementById('mobileClose');
+
+    function openMobileMenu() {
+        hamburger?.classList.add('active');
+        hamburger?.setAttribute('aria-expanded', 'true');
+        mobilePanel?.classList.add('open');
+        mobilePanel?.setAttribute('aria-hidden', 'false');
+        mobileOverlay?.classList.add('open');
+        mobileOverlay?.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        hamburger?.classList.remove('active');
+        hamburger?.setAttribute('aria-expanded', 'false');
+        mobilePanel?.classList.remove('open');
+        mobilePanel?.setAttribute('aria-hidden', 'true');
+        mobileOverlay?.classList.remove('open');
+        mobileOverlay?.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    hamburger?.addEventListener('click', () => {
+        const isOpen = mobilePanel?.classList.contains('open');
+        if (isOpen) closeMobileMenu();
+        else openMobileMenu();
+    });
+
+    mobileClose?.addEventListener('click', closeMobileMenu);
+    mobileOverlay?.addEventListener('click', closeMobileMenu);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobilePanel?.classList.contains('open')) {
+            closeMobileMenu();
+        }
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
 </script>
